@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { getByemail } from "../model/user";
+import { getByemail, insert, User } from "../model/user";
 
 export  function show_login(req: Request, res: Response) {
     res.render('login', {
@@ -8,9 +8,9 @@ export  function show_login(req: Request, res: Response) {
 }
 
 export async function register(req: Request, res: Response) {
-    const { name, email, password } = req.body;
+    const {  nome, email, senha } = req.body;
 
-    if (!name || !email || !password) {
+    if ( !nome || !email || !senha ) {
         return res.render('login', {
             message: {
                 type: 'error',
@@ -33,10 +33,10 @@ export async function register(req: Request, res: Response) {
     }
 
     const user: User={
-        name,
+        nome,
         email,
-        password,
-    role:UserRole.USER
+        senha,
+        
     };
 
     await insert (user)
