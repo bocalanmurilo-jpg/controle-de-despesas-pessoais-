@@ -24,3 +24,12 @@ export async function getByemail(email: string) {
         [email]);
     return rows[0];    
 };
+
+export async function getByEmailAndSenha(email: string, senha: string){
+    const {rows} = await connection.query(
+        'SELECT * FROM  usuario WHERE email=$1 AND senha=$2',
+        [email , senha]
+    );
+    return rows[0];
+    
+}
