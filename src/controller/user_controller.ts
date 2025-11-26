@@ -11,6 +11,13 @@ export async function register(req: Request, res: Response) {
     const {  nome, email, senha } = req.body;
 
     if ( !nome || !email || !senha ) {
+        console.log({
+            message: {
+                type: 'error',
+                value: 'Preencha corretamente os dados!',
+                title: 'dados invalídos'
+            }
+        });
         return res.render('login', {
             message: {
                 type: 'error',
@@ -23,6 +30,13 @@ export async function register(req: Request, res: Response) {
     const userFounded = await getByemail(email);
 
     if (userFounded) {
+        console.log({
+            message: {
+                type: 'error',
+                 value: 'E-mail já cadastrado',
+                title: 'dados invalídos'
+            }
+        });
         return res.render('login', {
             message: {
                 type: 'error',
@@ -40,6 +54,7 @@ export async function register(req: Request, res: Response) {
     };
 
     await insert (user)
+    console.log('aqui.........................')
      res.render('login', {
          message: {
                 type: 'sucess',
@@ -72,7 +87,15 @@ export async function login(req: Request, res: Response) {
             }
         });
     }
+
+    (req.session as any).user = {
+        nome: user.nome,
+        email: user.email,
+        id: user.id
+    }
+
     return res.redirect('/adm');
+
 }
 
     
